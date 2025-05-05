@@ -1,10 +1,10 @@
 // assets
-import { WaterDrop } from '@mui/icons-material';
+import { Person2Sharp } from '@mui/icons-material';
 
 
 // icons
 const icons = {
-  WaterDrop
+  Person2Sharp
 };
 
 // ==============================|| MENU ITEMS - SAMPLE PAGE & DOCUMENTATION ||============================== //
@@ -19,7 +19,7 @@ const kolam = {
           title: 'User',
           type: 'item',
           url: '/manajemenuser',
-          icon: icons.WaterDrop,
+          icon: icons.Person2Sharp,
         },
   ]
 };

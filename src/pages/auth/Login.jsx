@@ -15,10 +15,10 @@ export default function Login() {
   return (
     <AuthWrapper>
       <Grid container spacing={3}>
-        <Grid size={12}>
-          <Stack direction="row" sx={{ alignItems: 'baseline', justifyContent: 'space-between', mb: { xs: -0.5, sm: 0.5 } }}>
-            <Typography variant="h3">Gucang Farm Login</Typography>
-          </Stack>
+        <Grid size={12}>  
+            <Typography variant="h3" align='center'>
+              Gucang Farm Login
+            </Typography>
         </Grid>
         <Grid size={12}>
           <AuthLogin />
