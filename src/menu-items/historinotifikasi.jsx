@@ -9,7 +9,7 @@ const icons = {
 
 // ==============================|| MENU ITEMS - SAMPLE PAGE & DOCUMENTATION ||============================== //
 
-const kolam = {
+const historinotifikasi = {
   id: 'historinotifikasi',
   title: 'Notifikasi',
   type: 'group',
@@ -24,4 +24,4 @@ const kolam = {
   ]
 };
 
-export default kolam;
+export default historinotifikasi;
