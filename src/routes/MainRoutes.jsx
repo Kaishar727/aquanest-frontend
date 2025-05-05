@@ -16,6 +16,7 @@ const Shadow = Loadable(lazy(() => import('pages/component-overview/shadows')));
 const Kolam = Loadable(lazy(() => import('pages/dashboard/kolam')));
 
 const Manajemenuser = Loadable(lazy(() => import('pages/dashboard/usermanajemen')));
+const Historinotifikasi = Loadable(lazy(() => import('pages/dashboard/historinotifikasi')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -55,6 +56,10 @@ const MainRoutes = {
     {
       path: 'manajemenuser',
       element: <Manajemenuser/>
+    },
+    {
+      path: 'historinotifikasi',
+      element: <Historinotifikasi/>
     }
   ]
 };
