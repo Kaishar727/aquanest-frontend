@@ -11,7 +11,7 @@ const icons = {
 
 const kolam = {
   id: 'historinotifikasi',
-  title: 'Histori Notifikasi',
+  title: 'Notifikasi',
   type: 'group',
   children: [
     {
