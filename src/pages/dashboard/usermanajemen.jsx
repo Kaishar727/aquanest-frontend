@@ -16,6 +16,7 @@ import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { Password } from 'primereact/password';
 import 'primeicons/primeicons.css';
+import Tooltip from '@mui/material/Tooltip';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -193,27 +194,31 @@ export default function Users() {
   const actionBodyTemplate = (rowData) => {
     return (
       <div style={{ display: 'flex', gap: '0.5rem' }}>
-        <Button
-          icon="pi pi-pencil"
-          className="p-button-rounded p-button-success p-button-outlined"
-          onClick={() => {
-            setEditUser({
-              userid: rowData.userid,
-              username: rowData.username,
-              password: '',
-              fullname: rowData.fullname
-            });
-            setEditDialogVisible(true);
-          }}
-        />
-        <Button
-          icon="pi pi-trash"
-          className="p-button-rounded p-button-danger p-button-outlined"
-          onClick={() => {
-            setSelectedUser(rowData);
-            setDeleteDialogVisible(true);
-          }}
-        />
+        <Tooltip title="Edit User" >
+          <Button
+            icon="pi pi-pencil"
+            className="p-button-rounded p-button-success p-button-outlined"
+            onClick={() => {
+              setEditUser({
+                userid: rowData.userid,
+                username: rowData.username,
+                password: '',
+                fullname: rowData.fullname
+              });
+              setEditDialogVisible(true);
+            }}
+          />
+        </Tooltip>
+        <Tooltip title="Hapus User" >
+          <Button
+            icon="pi pi-trash"
+            className="p-button-rounded p-button-danger p-button-outlined"
+            onClick={() => {
+              setSelectedUser(rowData);
+              setDeleteDialogVisible(true);
+            }}
+          />
+        </Tooltip>
       </div>
     );
   };
@@ -225,11 +230,11 @@ export default function Users() {
           <i className="pi pi-search" />
           <IconField iconPosition="left">
             <InputIcon className="pi pi-search" />
-            <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search users..." />
+            <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Cari User (ID, Username)" />
           </IconField>
         </span>
         <Button
-          label="Add User"
+          label="Tambah User"
           icon="pi pi-plus"
           className="p-button-sm p-button-success"
           onClick={() => setAddDialogVisible(true)}
@@ -258,14 +263,14 @@ export default function Users() {
         >
           <Column field="userid" header="User ID" sortable style={{ width: '20%' }} />
           <Column field="username" header="Username" sortable style={{ width: '20%' }} />
-          <Column field="fullname" header="Full Name" sortable style={{ width: '30%' }} />
-          <Column header="Actions" body={actionBodyTemplate} style={{ width: '30%' }} />
+          <Column field="fullname" header="Nama Lengkap" sortable style={{ width: '30%' }} />
+          <Column header="Aksi" body={actionBodyTemplate} style={{ width: '30%' }} />
         </DataTable>
       </MainCard>
 
       {/* Add User Dialog */}
       <Dialog
-        header="Add New User"
+        header="Tambah User Baru"
         visible={addDialogVisible}
         style={{ width: '50vw' }}
         onHide={() => {
@@ -286,7 +291,7 @@ export default function Users() {
             />
           </div>
           <div className="p-field" style={{ marginBottom: '1em' }}>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Kata Sandi</label>
             <Password
               id="password"
               value={newUser.password}
@@ -297,7 +302,7 @@ export default function Users() {
             />
           </div>
           <div className="p-field">
-            <label htmlFor="fullname">Full Name</label>
+            <label htmlFor="fullname">Nama Lengkap</label>
             <InputText
               id="fullname"
               value={newUser.fullname}
@@ -308,7 +313,7 @@ export default function Users() {
           {error && <small className="p-error">{error}</small>}
           <div style={{ marginTop: '1em', display: 'flex', justifyContent: 'flex-end' }}>
             <Button
-              label="Cancel"
+              label="Batal"
               icon="pi pi-times"
               onClick={() => {
                 setAddDialogVisible(false);
@@ -317,7 +322,7 @@ export default function Users() {
               className="p-button-text"
             />
             <Button
-              label="Save"
+              label="Simpan"
               icon="pi pi-check"
               onClick={handleAddUser}
               loading={loading}
