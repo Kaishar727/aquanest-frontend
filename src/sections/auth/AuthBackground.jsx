@@ -8,6 +8,7 @@ export default function AuthBackground() {
   return (
     <Box
       sx={{
+        backgroundColor: "white",
         position: 'absolute',
         top: 0,
         left: 0,
