@@ -115,6 +115,7 @@ export default function DashboardDefault() {
         const formattedData = sensorRes.data.map((item) => ({
           id: item.id || Math.random().toString(36).substr(2, 9),
           pond_id: item.pond_id,
+          pond_name: item.pond_name,
           waktu: new Date(item.waktu),
           ph: Number(item.ph),
           temperature: Number(item.suhu),
@@ -471,6 +472,7 @@ export default function DashboardDefault() {
                       )}
                     />
                     <Column field="pond_id" header="ID Kolam" sortable />
+                    <Column field="pond_name" header="Nama Kolam" sortable />
                     <Column field="ph" header="pH" sortable body={(rowData) => numberBodyTemplate(rowData, 'ph')} />
                     <Column
                       field="temperature"

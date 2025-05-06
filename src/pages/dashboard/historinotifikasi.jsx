@@ -78,11 +78,12 @@ export default function Users() {
           header={renderHeader}
           filters={filters}
           filterDisplay="menu"
-          globalFilterFields={['id', 'pond_id', 'parameter']}
+          globalFilterFields={['id', 'pond_id', 'pond_name', 'parameter']}
           emptyMessage="No users found"
         >
           <Column field="id" header="ID Notifikasi" sortable style={{ width: '10%' }} />
           <Column field="pond_id" header="ID Kolam" sortable style={{ width: '10%' }} />
+          <Column field="pond_name" header="Nama Kolam" sortable style={{ width: '10%' }} />
           <Column field="parameter" header="Tipe Parameter" sortable style={{ width: '10%' }} />
           <Column field="measured_value" header="Nilai Yang Diukur" sortable style={{ width: '10%' }} />
           <Column field="optimal_min" header="Nilai Optimal Minimum" sortable style={{ width: '10%' }} />
