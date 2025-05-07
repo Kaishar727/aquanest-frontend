@@ -28,23 +28,40 @@ const ChartCard = ({
   const [range, setRange] = useState('hourly');
   const [chartData, setChartData] = useState({});
   const [chartOptions, setChartOptions] = useState({});
-  const [optimalRange, setOptimalRange] = useState({ min: 0, max: 10, unit: '' });
+  const [optimalRange, setOptimalRange] = useState({ 
+    min: 0, 
+    max: 10, 
+    unit: '',
+    textmin: '0',
+    textmax: '10'
+  });
   const [loading, setLoading] = useState(true);
 
-  // Fetch optimal parameters
+  // Ambil semua parameter optimal sekaligus
   useEffect(() => {
-    const fetchOptimalParameters = async () => {
+    const fetchAllOptimalParameters = async () => {
       try {
         const response = await axios.get(`${baseURL}/get_optimal_parameters.php`, {
-          params: { pond_id: pondId, parameter: metricKey }
+          params: { pond_id: pondId }
         });
+        
         if (response.data?.length > 0) {
-          const param = response.data[0];
-          setOptimalRange({
-            min: parseFloat(param.min_value),
-            max: parseFloat(param.max_value),
-            unit: getUnitForMetric(metricKey)
-          });
+          // Cari parameter yang sesuai dengan metricKey saat ini
+          const param = response.data.find(p => p.parameter === metricKey);
+          if (param) {
+            const newRange = {
+              min: parseFloat(param.min_value),
+              max: parseFloat(param.max_value),
+              unit: getUnitForMetric(metricKey),
+              textmin: formatNumberDisplay(param.min_value),
+              textmax: formatNumberDisplay(param.max_value)
+            };
+            setOptimalRange(newRange);
+          } else {
+            setOptimalRange(getDefaultRange(metricKey));
+          }
+        } else {
+          setOptimalRange(getDefaultRange(metricKey));
         }
       } catch (error) {
         console.error('Error fetching optimal parameters:', error);
@@ -54,228 +71,200 @@ const ChartCard = ({
       }
     };
 
-    fetchOptimalParameters();
+    fetchAllOptimalParameters();
   }, [pondId, metricKey]);
-  
-  // Helper functions
+
+  // Fungsi pembantu
+  const formatNumberDisplay = (value) => {
+    const num = parseFloat(value);
+    return Number.isInteger(num) ? num.toString() : num.toFixed(2);
+  };
+
   const getUnitForMetric = (metric) => {
-    switch (metric) {
-      case 'temperature':
-        return '°C';
-      case 'salinity':
-        return 'ppt';
-      case 'ammonia':
-        return 'mg/L';
-      case 'ec':
-        return 'µS/cm';
-      default:
-        return '';
-    }
+    const units = {
+      pH: '',
+      temperature: '°C',
+      salinity: 'ppt',
+      ammonia: 'mg/L',
+      ec: 'µS/cm'
+    };
+    return units[metric] || '';
   };
 
   const getDefaultRange = (metric) => {
     const defaults = {
-      pH: { min: 6.5, max: 8.5, unit: '' },
-      temperature: { min: 26, max: 30, unit: '°C' },
-      salinity: { min: 0, max: 5, unit: 'ppt' },
-      ammonia: { min: 0, max: 1, unit: 'mg/L' },
-      ec: { min: 300, max: 1500, unit: 'µS/cm' }
+      pH: { min: 6.5, max: 8.5, unit: '', textmin: '6.5', textmax: '8.5' },
+      temperature: { min: 26, max: 30, unit: '°C', textmin: '26', textmax: '30' },
+      salinity: { min: 0, max: 5, unit: 'ppt', textmin: '0', textmax: '5' },
+      ammonia: { min: 0, max: 1, unit: 'mg/L', textmin: '0', textmax: '1' },
+      ec: { min: 300, max: 1500, unit: 'µS/cm', textmin: '300', textmax: '1500' }
     };
-    return defaults[metric] || { min: 0, max: 10, unit: '' };
+    return defaults[metric] || { min: 0, max: 10, unit: '', textmin: '0', textmax: '10' };
   };
 
-  // Clamp function to keep values within optimal range
-  const clampValue = (value) => {
-    return Math.min(Math.max(value, optimalRange.min), optimalRange.max);
-  };
-
+  // Konfigurasi chart utama
   useEffect(() => {
     if (loading) return;
 
     const style = getComputedStyle(document.documentElement);
-    const colorSecondary = style.getPropertyValue('--text-color-secondary');
-    const border = style.getPropertyValue('--surface-border');
+    const textColor = style.getPropertyValue('--text-color-secondary');
+    const borderColor = style.getPropertyValue('--surface-border');
     const successColor = style.getPropertyValue('--green-500');
     const dangerColor = style.getPropertyValue('--red-500');
 
     const currentLabels = range === 'hourly' ? hourlyLabels : dailyLabels;
-    const currentData = dataset ? dataset[range] : [];
+    const rawData = dataset?.[range] || [];
     const displayYAxisLabel = yAxisLabel || `${metricKey} ${optimalRange.unit}`.trim();
 
-    // Create clamped data for visualization (points will appear at boundaries)
-    const clampedData = currentData.map((value) => clampValue(value));
-
-    // Visual elements for optimal range
-    const annotation = {
-      type: 'box',
-      drawTime: 'beforeDatasetsDraw',
-      xScaleID: 'x',
-      yScaleID: 'y',
-      xMin: 0,
-      xMax: currentLabels.length - 1,
-      yMin: optimalRange.min,
-      yMax: optimalRange.max,
-      backgroundColor: 'rgba(76, 175, 80, 0.1)',
-      borderColor: successColor,
-      borderWidth: 1
-    };
-
-    // Threshold lines for min/max boundaries
-    const minThreshold = {
-      type: 'line',
-      drawTime: 'beforeDatasetsDraw',
-      yScaleID: 'y',
-      yMin: optimalRange.min,
-      yMax: optimalRange.min,
-      borderColor: successColor,
-      borderWidth: 2,
-      borderDash: [6, 6]
-    };
-
-    const maxThreshold = {
-      type: 'line',
-      drawTime: 'beforeDatasetsDraw',
-      yScaleID: 'y',
-      yMin: optimalRange.max,
-      yMax: optimalRange.max,
-      borderColor: successColor,
-      borderWidth: 2,
-      borderDash: [6, 6]
-    };
-
-    setChartData({
-      labels: currentLabels,
-      datasets: [
-        {
-          label: displayYAxisLabel,
-          data: clampedData, // Use clamped data for visualization
-          fill: false,
-          borderColor: color,
-          tension: 0.4,
-          pointBackgroundColor: currentData.map((value) => (value < optimalRange.min || value > optimalRange.max ? dangerColor : color)),
-          pointRadius: 5,
-          pointHoverRadius: 7,
-          // Show original values in tooltips
-          _originalData: currentData
-        }
-      ]
+    // Proses data untuk visualisasi
+    const processedData = rawData.map(value => {
+      if (value === null || value === undefined) return null;
+      
+      // Kembalikan nilai asli jika dalam range optimal
+      if (value >= optimalRange.min && value <= optimalRange.max) {
+        return value;
+      }
+      // Jika di luar range, clamp ke batas terdekat
+      return value < optimalRange.min ? optimalRange.min : optimalRange.max;
     });
 
+    // Tentukan titik mana yang di luar range optimal
+    const isOutOfRange = rawData.map(value => {
+      if (value === null || value === undefined) return false;
+      return value < optimalRange.min || value > optimalRange.max;
+    });
+
+    // Atur data chart
+    setChartData({
+      labels: currentLabels,
+      datasets: [{
+        label: displayYAxisLabel,
+        data: processedData,
+        fill: false,
+        borderColor: color,
+        tension: 0.4,
+        pointBackgroundColor: isOutOfRange.map(out => out ? dangerColor : color),
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        _originalData: rawData // Simpan data asli untuk tooltip
+      }]
+    });
+
+    // Atur opsi chart
     setChartOptions({
       maintainAspectRatio: false,
       aspectRatio: aspectRatio,
       plugins: {
-        legend: {
-          labels: { color: colorSecondary },
-          position: 'top'
-        },
-        title: {
-          display: true,
-          text: title,
-          color: colorSecondary,
-          font: { size: 16 }
-        },
-        annotation: {
-          annotations: {
-            annotation,
-            minThreshold,
-            maxThreshold
-          }
-        },
+        legend: { labels: { color: textColor } },
         tooltip: {
           callbacks: {
             label: (context) => {
-              // Show original (unclamped) value in tooltip
-              const originalValue = context.dataset._originalData[context.dataIndex];
+              const value = context.dataset._originalData[context.dataIndex];
               let status = '';
-              if (originalValue < optimalRange.min) status = ' (Below Optimal)';
-              if (originalValue > optimalRange.max) status = ' (Above Optimal)';
-              return `${displayYAxisLabel}: ${originalValue}${optimalRange.unit}${status}`;
+              
+              if (value !== null && value !== undefined) {
+                if (value < optimalRange.min) status = ' (Di Bawah Optimal)';
+                else if (value > optimalRange.max) status = ' (Di Atas Optimal)';
+              }
+              
+              return `${displayYAxisLabel}: ${
+                value !== null && value !== undefined 
+                  ? formatNumberDisplay(value) 
+                  : 'Tidak Ada Data'
+              }${optimalRange.unit}${status}`;
             }
           }
         }
       },
       scales: {
         x: {
-          ticks: { color: colorSecondary },
-          grid: { color: border },
-          title: {
-            display: true,
-            text: xAxisLabel,
-            color: colorSecondary
-          }
+          ticks: { color: textColor },
+          grid: { color: borderColor },
+          title: { display: true, text: xAxisLabel, color: textColor }
         },
         y: {
-          min: optimalRange.min - (optimalRange.max - optimalRange.min) * 0.1, // 10% padding below
-          max: optimalRange.max + (optimalRange.max - optimalRange.min) * 0.1, // 10% padding above
+          min: optimalRange.min * 0.9, // Beri padding 10% di bawah
+          max: optimalRange.max * 1.1, // Beri padding 10% di atas
           ticks: {
-            color: colorSecondary,
-            // Show optimal boundaries and mid-point
-            callback: function (value) {
-              if (value === optimalRange.min || value === optimalRange.max) return value;
-              if (value === (optimalRange.min + optimalRange.max) / 2) return value;
-              return null;
+            color: textColor,
+            callback: (value) => {
+              // Hanya tampilkan nilai penting
+              if ([optimalRange.min, optimalRange.max].includes(value)) {
+                return formatNumberDisplay(value);
+              }
+              if (value === (optimalRange.min + optimalRange.max) / 2) {
+                return formatNumberDisplay(value);
+              }
+              return '';
             }
           },
-          grid: {
-            color: border,
-            drawTicks: false
-          },
-          title: {
-            display: true,
-            text: displayYAxisLabel,
-            color: colorSecondary
-          }
+          grid: { color: borderColor },
+          title: { display: true, text: displayYAxisLabel, color: textColor }
         }
-      },
-      // Custom hover behavior to show original values
-      hover: {
-        intersect: false,
-        mode: 'index'
       }
     });
   }, [range, dataset, optimalRange, loading]);
 
   return (
     <Card>
-      <style jsx>{`
-        .p-chart {
-          min-height: inherit;
-          height: 100%;
-        }
-      `}</style>
-      <Dropdown value={range} options={timeOptions} onChange={(e) => setRange(e.value)} className="solid-dropdown" />
-      <div style={{ minHeight: '400px', height: '100%', position: 'relative' }}>
-        {loading ? (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '300px',
-              color: 'var(--text-color-secondary)'
-            }}
-          >
-            Loading optimal parameters...
+      <div style={{ padding: '1rem' }}>
+        <Dropdown 
+          value={range} 
+          options={timeOptions} 
+          onChange={(e) => setRange(e.value)} 
+          style={{ marginBottom: '1rem' }}
+        />
+        
+        <div style={{ 
+      position: 'relative',
+      background: 'var(--surface-ground)',
+      borderRadius: '12px',
+    }}>
+      {loading ? (
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '400px',
+          color: 'var(--text-color-secondary)'
+        }}>
+          Memuat data grafik...
+        </div>
+      ) : chartData.labels?.length > 0 ? (
+        <>
+          <div style={{
+            position: 'absolute',
+            top: '1rem',
+            left: '1rem',
+            background: 'rgba(255,255,255,0.9)',
+            padding: '0.5rem 1rem',
+            borderRadius: '6px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            zIndex: 1
+          }}>
+            <strong>Range Optimal:</strong> {optimalRange.textmin} - {optimalRange.textmax} {optimalRange.unit}
           </div>
-        ) : chartData.labels?.length > 0 ? (
-          <Chart type="line" data={chartData} options={chartOptions} />
-        ) : (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '300px',
-              color: 'var(--text-color-secondary)'
-            }}
-          >
-            No data available
-          </div>
-        )}
+          <Chart 
+            type="line" 
+            data={chartData} 
+            options={chartOptions} 
+            style={{ minHeight: '400px' }}  // Apply minHeight here
+          />
+        </>
+      ) : (
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '400px',
+          color: 'var(--text-color-secondary)'
+        }}>
+          Tidak ada data yang tersedia
+        </div>
+      )}
+    </div>
       </div>
     </Card>
   );
 };
-
 export default ChartCard;

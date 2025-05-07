@@ -261,17 +261,17 @@ export default function DashboardDefault() {
           <InputText
             id={`${param}-min`}
             type="number"
-            value={values.min || ''}
-            onChange={(e) => {
+            value={values.textmin === undefined && values.min === 0 ? '0' : values.textmin || ''}
+            onChange={(e) =>
               setOptimalParameters((prev) => ({
                 ...prev,
                 [param]: {
                   ...prev[param],
-                  min: parseFloat(e.target.value) || 0,
+                  min: e.target.value === '' ? '' : parseFloat(e.target.value),
                   textmin: e.target.value
                 }
-              }));
-            }}
+              }))
+            }
             step="0.1"
             style={{
               width: '100%',
@@ -289,17 +289,17 @@ export default function DashboardDefault() {
           <InputText
             id={`${param}-max`}
             type="number"
-            value={values.max || ''}
-            onChange={(e) => {
+            value={values.textmax === undefined && values.max === 0 ? '0' : values.textmax || ''}
+            onChange={(e) =>
               setOptimalParameters((prev) => ({
                 ...prev,
                 [param]: {
                   ...prev[param],
-                  max: parseFloat(e.target.value) || 0,
+                  max: e.target.value === '' ? '' : parseFloat(e.target.value),
                   textmax: e.target.value
                 }
-              }));
-            }}
+              }))
+            }
             step="0.1"
             style={{
               width: '100%',

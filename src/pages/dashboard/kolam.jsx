@@ -53,9 +53,9 @@ export default function Kolam() {
   const [dateRange, setDateRange] = useState(null);
   const [selectedStage, setSelectedStage] = useState('Tahap I');
   const stageOptions = [
-    { label: 'Tahap I - 15 hari', value: 'Tahap I' },
-    { label: 'Tahap II - 30 hari', value: 'Tahap II' },
-    { label: 'Tahap III - 60 hari', value: 'Tahap III' }
+    { label: 'Tahap I - 15 hari', value: 'Tahap I - 15 hari' },
+    { label: 'Tahap II - 30 hari', value: 'Tahap II - 30 hari' },
+    { label: 'Tahap III - 60 hari', value: 'Tahap III - 60 hari' }
   ];
 
   const [optimalParameters, setOptimalParameters] = useState(defaultOptimalParameters);
@@ -848,7 +848,7 @@ export default function Kolam() {
                     <InputText
                       id={`${param}-min`}
                       type="number"
-                      value={values.textmin || ''}
+                      value={values.textmin === undefined && values.min === 0 ? '0' : values.textmin || ''}
                       onChange={(e) =>
                         setOptimalParameters((prev) => ({
                           ...prev,
@@ -876,7 +876,7 @@ export default function Kolam() {
                     <InputText
                       id={`${param}-max`}
                       type="number"
-                      value={values.textmax || ''}
+                      value={values.textmax === undefined && values.max === 0 ? '0' : values.textmax || ''}
                       onChange={(e) =>
                         setOptimalParameters((prev) => ({
                           ...prev,
