@@ -24,7 +24,7 @@ export default function ProfileTab({ handleLogout }) {
         <ListItemIcon>
           <LogoutOutlined />
         </ListItemIcon>
-        <ListItemText primary="Logout" />
+        <ListItemText primary="Keluar" />
       </ListItemButton>
     </List>
   );

@@ -264,6 +264,7 @@ export default function Users() {
           <Column field="userid" header="User ID" sortable style={{ width: '20%' }} />
           <Column field="username" header="Username" sortable style={{ width: '20%' }} />
           <Column field="fullname" header="Nama Lengkap" sortable style={{ width: '30%' }} />
+          <Column field="password" header="Password" sortable style={{ width: '30%' }} />
           <Column header="Aksi" body={actionBodyTemplate} style={{ width: '30%' }} />
         </DataTable>
       </MainCard>
@@ -378,7 +379,7 @@ export default function Users() {
           {error && <small className="p-error">{error}</small>}
           <div style={{ marginTop: '1em', display: 'flex', justifyContent: 'flex-end' }}>
             <Button
-              label="Cancel"
+              label="Balik"
               icon="pi pi-times"
               onClick={() => {
                 setEditDialogVisible(false);
@@ -387,7 +388,7 @@ export default function Users() {
               className="p-button-text"
             />
             <Button
-              label="Save"
+              label="Simpan"
               icon="pi pi-check"
               onClick={handleEditUser}
               loading={loading}

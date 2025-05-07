@@ -1,15 +1,7 @@
 import PropTypes from 'prop-types';
-import { initializeApp } from "firebase/app";
-
 import { useRef, useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-// Import the auth and db from your config file
-import { auth, db } from "../../../../../../firebase-config";
-
+import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-
-
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -20,8 +12,6 @@ import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import Stack from '@mui/material/Stack';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -36,8 +26,6 @@ import IconButton from 'components/@extended/IconButton';
 
 // assets
 import LogoutOutlined from '@ant-design/icons/LogoutOutlined';
-import SettingOutlined from '@ant-design/icons/SettingOutlined';
-import UserOutlined from '@ant-design/icons/UserOutlined';
 import avatar1 from 'assets/images/users/avatar-1.png';
 
 // tab panel wrapper
@@ -57,12 +45,10 @@ function a11yProps(index) {
 }
 
 export default function Profile() {
-
   const theme = useTheme();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
 
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
@@ -70,28 +56,16 @@ export default function Profile() {
 
   // Fetch user data on component mount
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        navigate('/login');
-      } else {
-        // Load user data if authenticated
-        const loadUserData = async () => {
-          try {
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            if (userDoc.exists()) {
-              setUserData(userDoc.data());
-            }
-          } catch (error) {
-            console.error("Error fetching user data:", error);
-          } finally {
-            setLoading(false);
-          }
-        };
-        loadUserData();
-      }
-    });
+    const userCookie = Cookies.get('user');
+    if (!userCookie) {
+      navigate('/login');
+    } else {
+      setUserData(JSON.parse(userCookie));
+      setLoading(false);
+    }
 
-    return () => unsubscribe();
+
+
   }, [navigate]);
 
   const handleToggle = () => {
@@ -109,21 +83,13 @@ export default function Profile() {
     setValue(newValue);
   };
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      setUserData(null);  // Clear user data
-      localStorage.removeItem('loggedInUserId');
-      navigate('/login');  // Redirect to login page
-      console.log("Signed out successfully");
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
+  const handleLogout = () => {
+    setUserData(null);
+    Cookies.remove('user');
+    navigate('/login');
   };
 
-  if (loading) {
-    return <div>Loading...</div>; // Or a proper loading spinner
-  }
+  if (loading) return <div>Loading...</div>;
 
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
@@ -145,7 +111,7 @@ export default function Profile() {
         <Stack direction="row" sx={{ gap: 1.25, alignItems: 'center', p: 0.5 }}>
           <Avatar alt="profile user" src={avatar1} size="sm" />
           <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
-            {userData ? `${userData.firstName} ${userData.lastName}` : 'Guest'}
+            {userData?.username || 'Guest'}
           </Typography>
         </Stack>
       </ButtonBase>
@@ -160,16 +126,14 @@ export default function Profile() {
           modifiers: [
             {
               name: 'offset',
-              options: {
-                offset: [0, 9]
-              }
+              options: { offset: [0, 9] }
             }
           ]
         }}
       >
         {({ TransitionProps }) => (
           <Transitions type="grow" position="top-right" in={open} {...TransitionProps}>
-            <Paper sx={(theme) => ({ boxShadow: theme.customShadows.z1, width: 290, minWidth: 240, maxWidth: { xs: 250, md: 290 } })}>
+            <Paper sx={{ boxShadow: theme.customShadows.z1, width: 290, minWidth: 240, maxWidth: { xs: 250, md: 290 } }}>
               <ClickAwayListener onClickAway={handleClose}>
                 <MainCard elevation={0} border={false} content={false}>
                   <CardContent sx={{ px: 2.5, pt: 3 }}>
@@ -179,21 +143,17 @@ export default function Profile() {
                           <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
                           <Stack>
                             <Typography variant="h6">
-                              {userData ? `${userData.firstName} ${userData.lastName}` : 'Guest'}
+                              {userData?.username || 'Guest'}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                              {userData?.email || 'No email'}
+                              {userData?.fullname || 'No Name'}
                             </Typography>
                           </Stack>
                         </Stack>
                       </Grid>
                       <Grid>
                         <Tooltip title="Logout">
-                          <IconButton 
-                            size="large" 
-                            sx={{ color: 'text.primary' }}
-                            onClick={handleLogout}
-                          >
+                          <IconButton size="large" sx={{ color: 'text.primary' }} onClick={handleLogout}>
                             <LogoutOutlined />
                           </IconButton>
                         </Tooltip>
@@ -216,4 +176,9 @@ export default function Profile() {
   );
 }
 
-TabPanel.propTypes = { children: PropTypes.node, value: PropTypes.number, index: PropTypes.number, other: PropTypes.any };
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  value: PropTypes.number,
+  index: PropTypes.number,
+  other: PropTypes.any
+};

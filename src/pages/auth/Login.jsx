@@ -17,7 +17,7 @@ export default function Login() {
       <Grid container spacing={3}>
         <Grid size={12}>  
             <Typography variant="h3" align='center'>
-              Gucang Farm Login
+              Masuk
             </Typography>
         </Grid>
         <Grid size={12}>

@@ -1,21 +1,9 @@
-// src/components/ProtectedRoute.jsx
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebase-config';
+import React from "react";
+import { Navigate } from "react-router-dom";
 
-export default function ProtectedRoute({ children }) {
-  const navigate = useNavigate();
+const ProtectedRoute = ({ children }) => {
+  const user = localStorage.getItem("user");
+  return user ? children : <Navigate to="/login" />;
+};
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        navigate('/auth/login');
-      }
-    });
-
-    return () => unsubscribe();
-  }, [navigate]);
-
-  return children;
-}
+export default ProtectedRoute;

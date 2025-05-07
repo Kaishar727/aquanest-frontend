@@ -27,11 +27,9 @@ import AnimateButton from 'components/@extended/AnimateButton';
 import EyeOutlined from '@ant-design/icons/EyeOutlined';
 import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 
-// Firebase
-import { auth,db } from "../../../firebase-config";
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,onAuthStateChanged  } from "firebase/auth";
-import { getFirestore, setDoc, doc } from "firebase/firestore";
+//cookies
+import Cookies from 'js-cookie';
+
 
 
 
@@ -41,15 +39,13 @@ export default function AuthLogin({ isDemo = false }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is logged in, redirect to dashboard
-        navigate('../dashboard/default');
-      }
-    });
+    const cookieUser = Cookies.get("user");
+  if (cookieUser) {
+    window.location.href = 'dashboard/default';
 
-    return () => unsubscribe(); // Cleanup on unmount
-  }, [navigate]);
+    }
+  }, []);
+  
 
   const showMessage = (message, type) => {
     if (type === 'signIn') {
@@ -97,72 +93,80 @@ export default function AuthLogin({ isDemo = false }) {
     }
   };
 
-  const handleSignIn = async (email, password) => {
+  const handleLogin = async (values) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      localStorage.setItem('loggedInUserId', user.uid);
-      showMessage('Login successful', 'signIn');
-      navigate('/dashboard/default'); // Redirect to home page
-    } catch (error) {
-      if (error.code === 'auth/invalid-credential') {
-        showMessage('Incorrect Email or Password', 'signIn');
+      const response = await fetch("http://localhost/backendlele/login.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+  
+      const data = await response.json(); // <== this contains userData
+  
+      if (response.ok && data.success) {
+        Cookies.set('user', JSON.stringify({
+          userid: data.userid,
+          fullname: data.fullname,
+          username: data.username
+        }), { expires: 1 });
+        // Redirect to dashboard
+        window.location.href = "dashboard/default";
       } else {
-        showMessage('Account does not Exist', 'signIn');
+        alert(data.message || "Login failed");
       }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred. Check console for details.");
     }
   };
+  
+  
+  
 
   return (
     <Formik
       initialValues={{
-        email: '',
+        username: '',
         password: '',
         submit: null
       }}
       validationSchema={Yup.object().shape({
-        email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+        username: Yup.string().max(255).required('Username is required'),
         password: Yup.string().max(255).required('Password is required')
       })}
-      onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-        try {
-          await handleSignIn(values.email, values.password);
-          setStatus({ success: true });
-          setSubmitting(false);
-        } catch (err) {
-          setStatus({ success: false });
-          setErrors({ submit: err.message });
-          setSubmitting(false);
-        }
-      }}
+      onSubmit={handleLogin}
+
     >
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
         <form noValidate onSubmit={handleSubmit}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Stack spacing={1}>
-                <InputLabel htmlFor="email-login">Email Address</InputLabel>
-                <OutlinedInput
-                  id="email-login"
-                  type="email"
-                  value={values.email}
-                  name="email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  placeholder="Enter email address"
-                  fullWidth
-                  error={Boolean(touched.email && errors.email)}
-                />
-                {touched.email && errors.email && (
-                  <FormHelperText error id="standard-weight-helper-text-email-login">
-                    {errors.email}
-                  </FormHelperText>
-                )}
-              </Stack>
+            <Stack spacing={1}>
+              <InputLabel htmlFor="username-login">Username</InputLabel>
+              <OutlinedInput
+                id="username-login"
+                type="text"
+                value={values.username}
+                name="username"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                placeholder="Masukkan Username"
+                fullWidth
+                error={Boolean(touched.username && errors.username)}
+              />
+              {touched.username && errors.username && (
+                <FormHelperText error id="standard-weight-helper-text-username-login">
+                  {errors.username}
+                </FormHelperText>
+              )}
+            </Stack>
+
             </Grid>
             <Grid item xs={12}>
               <Stack spacing={1}>
-                <InputLabel htmlFor="password-login">Password</InputLabel>
+                <InputLabel htmlFor="password-login">Kata Sandi</InputLabel>
                 <OutlinedInput
                   fullWidth
                   error={Boolean(touched.password && errors.password)}
@@ -172,7 +176,7 @@ export default function AuthLogin({ isDemo = false }) {
                   name="password"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  placeholder="Enter password"
+                  placeholder="Masukkan Kata Sandi"
                 />
                 {touched.password && errors.password && (
                   <FormHelperText error id="standard-weight-helper-text-password-login">
