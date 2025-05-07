@@ -151,13 +151,7 @@ export default function Profile() {
                           </Stack>
                         </Stack>
                       </Grid>
-                      <Grid>
-                        <Tooltip title="Logout">
-                          <IconButton size="large" sx={{ color: 'text.primary' }} onClick={handleLogout}>
-                            <LogoutOutlined />
-                          </IconButton>
-                        </Tooltip>
-                      </Grid>
+
                     </Grid>
                   </CardContent>
                   <TabPanel value={value} index={0} dir={theme.direction}>
