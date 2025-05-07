@@ -31,7 +31,7 @@ import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 import Cookies from 'js-cookie';
 
 //Login Backend
-const API_URL = import.meta.env.VITE_BASE_LOGIN;
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 export default function AuthLogin({ isDemo = false }) {
   const [signInMessage, setSignInMessage] = useState('');
@@ -95,7 +95,7 @@ export default function AuthLogin({ isDemo = false }) {
 
   const handleLogin = async (values) => {
     try {
-      const response = await fetch(`${API_URL}`, {
+      const response = await fetch(`${baseURL}/login.php`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
