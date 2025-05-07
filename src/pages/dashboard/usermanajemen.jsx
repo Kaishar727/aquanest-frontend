@@ -264,7 +264,6 @@ export default function Users() {
           <Column field="userid" header="User ID" sortable style={{ width: '20%' }} />
           <Column field="username" header="Username" sortable style={{ width: '20%' }} />
           <Column field="fullname" header="Nama Lengkap" sortable style={{ width: '30%' }} />
-          <Column field="password" header="Password" sortable style={{ width: '30%' }} />
           <Column header="Aksi" body={actionBodyTemplate} style={{ width: '30%' }} />
         </DataTable>
       </MainCard>
