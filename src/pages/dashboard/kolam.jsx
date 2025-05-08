@@ -59,6 +59,7 @@ export default function Kolam() {
   ];
 
   const [optimalParameters, setOptimalParameters] = useState(defaultOptimalParameters);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     fetchPools();
@@ -554,7 +555,14 @@ export default function Kolam() {
             <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Cari Kata Kunci (Nama)" />
           </IconField>
         </span>
-        <Button label="Tambah Kolam" icon="pi pi-plus" className="p-button-sm p-button-success" onClick={() => setAddDialogVisible(true)} />
+        {activeIndex === 0 && (
+          <Button 
+          label="Tambah Kolam" 
+          icon="pi pi-plus" 
+          className="p-button-sm p-button-success" 
+          onClick={() => setAddDialogVisible(true)} 
+          />
+        )}
       </div>
     );
   };
@@ -562,7 +570,7 @@ export default function Kolam() {
   return (
     <>
       <MainCard>
-        <TabView>
+        <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
           <TabPanel header="Daftar Semua Kolam">
             <DataTable
               value={products}
