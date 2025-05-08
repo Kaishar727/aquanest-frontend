@@ -991,7 +991,7 @@ export default function Kolam() {
               id="poolName"
               value={newPoolName}
               onChange={(e) => setNewPoolName(e.target.value)}
-              placeholder="Enter pool name"
+              placeholder="Masukkan nama kolam"
               className={error ? 'p-invalid' : ''}
             />
           </div>
