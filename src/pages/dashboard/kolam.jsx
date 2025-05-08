@@ -33,8 +33,8 @@ export default function Kolam() {
   const [alerts, setAlerts] = useState([]);
   const [pools, setPools] = useState([]);
   const [products, setProducts] = useState([]);
-  const [size, setSize] = useState('normal');
-  const sizeOptions = ['small', 'normal', 'large'];
+  const [size, setSize] = useState('sedang');
+  const sizeOptions = ['kecil', 'sedang', 'besar'];
   const [sensorData, setSensorData] = useState([]);
   const [history, setHistory] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -60,6 +60,12 @@ export default function Kolam() {
 
   const [optimalParameters, setOptimalParameters] = useState(defaultOptimalParameters);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const sizeMap = {
+    kecil: 'small',
+    sedang: 'normal',
+    besar: 'large'
+  };
 
   useEffect(() => {
     fetchPools();
@@ -502,22 +508,22 @@ export default function Kolam() {
 
   const addPoolDialogFooter = (
     <div>
-      <Button label="Cancel" icon="pi pi-times" onClick={() => setAddDialogVisible(false)} className="p-button-text" />
-      <Button label="Save" icon="pi pi-check" onClick={handleAddPool} loading={loading} disabled={loading} />
+      <Button label="Batal" icon="pi pi-times" onClick={() => setAddDialogVisible(false)} className="p-button-text" />
+      <Button label="Simpan" icon="pi pi-check" onClick={handleAddPool} loading={loading} disabled={loading} />
     </div>
   );
 
   const editDialogFooter = (
     <div>
-      <Button label="Cancel" icon="pi pi-times" onClick={() => setEditDialogVisible(false)} className="p-button-text" />
-      <Button label="Save" icon="pi pi-check" onClick={handleEditPool} loading={loading} disabled={loading} />
+      <Button label="Batal" icon="pi pi-times" onClick={() => setEditDialogVisible(false)} className="p-button-text" />
+      <Button label="Simpan" icon="pi pi-check" onClick={handleEditPool} loading={loading} disabled={loading} />
     </div>
   );
 
   const resetDialogFooter = (
     <div>
-      <Button label="Cancel" icon="pi pi-times" onClick={() => setResetDialogVisible(false)} className="p-button-text" />
-      <Button label="Reset" icon="pi pi-check" onClick={handleResetPool} loading={loading} disabled={loading} />
+      <Button label="Batal" icon="pi pi-times" onClick={() => setResetDialogVisible(false)} className="p-button-text" />
+      <Button label="Simpan" icon="pi pi-check" onClick={handleResetPool} loading={loading} disabled={loading} />
     </div>
   );
 
@@ -637,11 +643,11 @@ export default function Kolam() {
                 pondId={selectedProduct?.pd_id}
                 aspectRatio={1}
                 color="#4CAF50"
-                xAxisLabel="Time"
-                yAxisLabel="pH Level"
+                xAxisLabel="Waktu"
+                yAxisLabel="Tingkat pH"
               />
             </TabPanel>
-            <TabPanel header="Temperature" sx={{ height: '100%' }}>
+            <TabPanel header="Suhu" sx={{ height: '100%' }}>
               <ChartCard
                 title="Temperature"
                 metricKey="temperature"
@@ -651,11 +657,11 @@ export default function Kolam() {
                 pondId={selectedProduct?.pd_id}
                 aspectRatio={1}
                 color="#42A5F5"
-                xAxisLabel="Time"
-                yAxisLabel="Temperature (°C)"
+                xAxisLabel="Waktu"
+                yAxisLabel="Suhu (°C)"
               />
             </TabPanel>
-            <TabPanel header="Salinity" sx={{ height: '100%' }}>
+            <TabPanel header="Salinitas" sx={{ height: '100%' }}>
               <ChartCard
                 title="Salinity"
                 metricKey="salinity"
@@ -665,11 +671,11 @@ export default function Kolam() {
                 pondId={selectedProduct?.pd_id}
                 aspectRatio={1}
                 color="#66BB6A"
-                xAxisLabel="Time"
-                yAxisLabel="Salinity (ppt)"
+                xAxisLabel="Waktu"
+                yAxisLabel="Salinitas (ppt)"
               />
             </TabPanel>
-            <TabPanel header="Ammonia" sx={{ height: '100%' }}>
+            <TabPanel header="Amonia" sx={{ height: '100%' }}>
               <ChartCard
                 title="Ammonia"
                 metricKey="ammonia"
@@ -679,12 +685,12 @@ export default function Kolam() {
                 pondId={selectedProduct?.pd_id}
                 aspectRatio={1}
                 color="#AB47BC"
-                xAxisLabel="Time"
-                yAxisLabel="Ammonia (mg/L)"
+                xAxisLabel="Waktu"
+                yAxisLabel="Amonia (mg/L)"
               />
             </TabPanel>
 
-            <TabPanel header="Historical Data">
+            <TabPanel header="Data Historis">
               <Box sx={{ mb: 2 }}>
                 <Box
                   sx={{
@@ -698,7 +704,7 @@ export default function Kolam() {
                   }}
                 >
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    <Typography component="label">Table Size</Typography>
+                    <Typography component="label">Ukuran Tabel</Typography>
                     <SelectButton
                       value={size}
                       onChange={(e) => setSize(e.value)}
@@ -710,7 +716,7 @@ export default function Kolam() {
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, minWidth: 300 }}>
                     <Typography component="label" htmlFor="dateRange">
-                      Filter by Date Range
+                      Filter Berdasarkan Rentang Waktu
                     </Typography>
                     <Calendar
                       id="dateRange"
@@ -719,7 +725,7 @@ export default function Kolam() {
                       selectionMode="range"
                       readOnlyInput
                       dateFormat="yy-mm-dd"
-                      placeholder="Select date range"
+                      placeholder="Pilih rentang waktu"
                       showIcon
                       showButtonBar
                     />
@@ -736,7 +742,7 @@ export default function Kolam() {
               >
                 <DataTable
                   value={filteredData}
-                  size={size}
+                  size={sizeMap[size]}
                   loading={loading}
                   paginator
                   rows={10}
@@ -756,7 +762,7 @@ export default function Kolam() {
                 >
                   <Column
                     field="waktu"
-                    header="Time"
+                    header="Waktu"
                     sortable
                     body={dateBodyTemplate}
                     filterField="waktu"
@@ -771,12 +777,11 @@ export default function Kolam() {
                       />
                     )}
                   />
-                  <Column field="pond_id" header="Pond ID" sortable />
+                  <Column field="pond_id" header="ID Kolam" sortable />
                   <Column field="ph" header="pH" sortable body={(rowData) => numberBodyTemplate(rowData, 'ph')} />
-                  <Column field="temperature" header="Temp (°C)" sortable body={(rowData) => numberBodyTemplate(rowData, 'temperature')} />
-                  <Column field="salinity" header="Salinity (ppt)" sortable body={(rowData) => numberBodyTemplate(rowData, 'salinity')} />
-                  <Column field="ammonia" header="ammonia (mg/l)" sortable body={(rowData) => numberBodyTemplate(rowData, 'ammonia')} />
-                  <Column field="ec" header="EC (µS/cm)" sortable body={(rowData) => numberBodyTemplate(rowData, 'ec')} />
+                  <Column field="temperature" header="Suhu (°C)" sortable body={(rowData) => numberBodyTemplate(rowData, 'temperature')} />
+                  <Column field="salinity" header="Salinitas (ppt)" sortable body={(rowData) => numberBodyTemplate(rowData, 'salinity')} />
+                  <Column field="ammonia" header="Amonia (mg/l)" sortable body={(rowData) => numberBodyTemplate(rowData, 'ammonia')} />
                 </DataTable>
               </Box>
             </TabPanel>
@@ -844,14 +849,14 @@ export default function Kolam() {
 
           <div style={{ marginTop: '2em' }}>
             <Typography variant="h6" gutterBottom>
-              Optimal Parameters
+              Parameter Optimal
             </Typography>
             <Grid container spacing={2}>
               {Object.entries(optimalParameters).map(([param, values]) => (
                 <Grid item xs={12} sm={6} md={4} key={param}>
                   <div className="p-field" style={{ marginBottom: '1em' }}>
                     <label htmlFor={`${param}-min`} style={{ fontWeight: 'bold' }}>
-                      {param} (Min)
+                      {param} (minimal)
                     </label>
                     <InputText
                       id={`${param}-min`}
@@ -879,7 +884,7 @@ export default function Kolam() {
                   </div>
                   <div className="p-field">
                     <label htmlFor={`${param}-max`} style={{ fontWeight: 'bold' }}>
-                      {param} (Max)
+                      {param} (maksimal)
                     </label>
                     <InputText
                       id={`${param}-max`}
@@ -917,7 +922,7 @@ export default function Kolam() {
               id="editReason"
               value={editReason}
               onChange={(e) => setEditReason(e.target.value)}
-              placeholder="Enter reason for change"
+              placeholder="Masukkan alasan untuk perubahan"
               style={{
                 width: '100%',
                 borderRadius: '8px',
@@ -958,7 +963,7 @@ export default function Kolam() {
               id="resetReason"
               value={resetReason}
               onChange={(e) => setResetReason(e.target.value)}
-              placeholder="Enter reason for reset"
+              placeholder="Masukkan alasan untuk reset"
             />
           </div>
           {error && <small className="p-error">{error}</small>}

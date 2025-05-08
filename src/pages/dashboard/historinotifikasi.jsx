@@ -57,7 +57,7 @@ export default function Users() {
           <i className="pi pi-search" />
           <IconField iconPosition="left">
             <InputIcon className="pi pi-search" />
-            <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Cari Notifikasi" />
+            <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Cari (ID Kolam, Nama, Parameter)" />
           </IconField>
         </span>
       </div>

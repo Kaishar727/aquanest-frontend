@@ -256,7 +256,7 @@ export default function DashboardDefault() {
       <Grid item xs={12} sm={6} md={4} key={param}>
         <div className="p-field" style={{ marginBottom: '1em' }}>
           <label htmlFor={`${param}-min`} style={{ fontWeight: 'bold' }}>
-            {param} (Min)
+            {param} (minimal)
           </label>
           <InputText
             id={`${param}-min`}
@@ -284,7 +284,7 @@ export default function DashboardDefault() {
         </div>
         <div className="p-field">
           <label htmlFor={`${param}-max`} style={{ fontWeight: 'bold' }}>
-            {param} (Max)
+            {param} (maksimal)
           </label>
           <InputText
             id={`${param}-max`}
@@ -325,8 +325,8 @@ export default function DashboardDefault() {
                 icon="pi pi-cog"
                 className="p-button-primary"
                 onClick={() => setEditDialogVisible(true)}
-                aria-label="Edit Parameter Default"
-                tooltip="Edit Parameter Default"
+                aria-label="Ubah Parameter Bawaan"
+                tooltip="Ubah Parameter Bawaan"
                 tooltipOptions={{ position: 'bottom' }}
               />
             </Box>
@@ -539,7 +539,7 @@ export default function DashboardDefault() {
       </Grid>
 
       <Dialog
-        header="Ubah Parameter Default"
+        header="Ubah Parameter Bawaan"
         visible={editDialogVisible}
         style={{ width: '70vw', marginTop: '55px', marginLeft: '70px' }}
         onHide={() => {
