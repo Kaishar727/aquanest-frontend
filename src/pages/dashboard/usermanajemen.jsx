@@ -287,7 +287,7 @@ export default function Users() {
               id="username"
               value={newUser.username}
               onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
-              placeholder="Enter username"
+              placeholder="Masukkan Username"
             />
           </div>
           <div className="p-field" style={{ marginBottom: '1em' }}>
@@ -296,7 +296,7 @@ export default function Users() {
               id="password"
               value={newUser.password}
               onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-              placeholder="Enter password"
+              placeholder="Masukkan Kata Sandi"
               feedback={false}
               toggleMask
             />
@@ -307,7 +307,7 @@ export default function Users() {
               id="fullname"
               value={newUser.fullname}
               onChange={(e) => setNewUser({ ...newUser, fullname: e.target.value })}
-              placeholder="Enter full name"
+              placeholder="Masukkan Nama Lengkap"
             />
           </div>
           {error && <small className="p-error">{error}</small>}
@@ -352,33 +352,33 @@ export default function Users() {
               id="editUsername"
               value={editUser.username}
               onChange={(e) => setEditUser({ ...editUser, username: e.target.value })}
-              placeholder="Enter username"
+              placeholder="Masukkan Username"
             />
           </div>
           <div className="p-field" style={{ marginBottom: '1em' }}>
-            <label htmlFor="editPassword">New Password (leave blank to keep current)</label>
+            <label htmlFor="editPassword">Kata Sandi Baru (kosongkan jika ingin memakai yang dipakai sekarang)</label>
             <Password
               id="editPassword"
               value={editUser.password}
               onChange={(e) => setEditUser({ ...editUser, password: e.target.value })}
-              placeholder="Enter new password"
+              placeholder="Masukkan Kata Sandi Baru"
               feedback={false}
               toggleMask
             />
           </div>
           <div className="p-field">
-            <label htmlFor="editFullname">Full Name</label>
+            <label htmlFor="editFullname">Nama Lengkap</label>
             <InputText
               id="editFullname"
               value={editUser.fullname}
               onChange={(e) => setEditUser({ ...editUser, fullname: e.target.value })}
-              placeholder="Enter full name"
+              placeholder="Masukkan Nama Lengkap"
             />
           </div>
           {error && <small className="p-error">{error}</small>}
           <div style={{ marginTop: '1em', display: 'flex', justifyContent: 'flex-end' }}>
             <Button
-              label="Balik"
+              label="Batal"
               icon="pi pi-times"
               onClick={() => {
                 setEditDialogVisible(false);
@@ -400,7 +400,7 @@ export default function Users() {
 
       {/* Delete User Dialog */}
       <Dialog
-        header="Confirm Delete"
+        header="Konfirmasi Penghapusan"
         visible={deleteDialogVisible}
         style={{ width: '30vw' }}
         onHide={() => {
@@ -410,7 +410,7 @@ export default function Users() {
         footer={
           <div>
             <Button
-              label="No"
+              label="Tidak"
               icon="pi pi-times"
               onClick={() => {
                 setDeleteDialogVisible(false);
@@ -419,7 +419,7 @@ export default function Users() {
               className="p-button-text"
             />
             <Button
-              label="Yes"
+              label="Ya"
               icon="pi pi-check"
               onClick={handleDeleteUser}
               loading={loading}
@@ -432,9 +432,9 @@ export default function Users() {
         modal
       >
         <div className="confirmation-content">
-          <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
+          <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem', paddingRight: '5px' }} />
           <span>
-            Are you sure you want to delete user <b>{selectedUser?.username}</b>?
+            Apakah Anda yakin ingin menghapus pengguna <b>{selectedUser?.username}</b>?
           </span>
         </div>
       </Dialog>

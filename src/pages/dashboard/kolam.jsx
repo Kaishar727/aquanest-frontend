@@ -593,7 +593,7 @@ export default function Kolam() {
               <Column header="Aksi" body={actionBodyTemplate} style={{ width: '20%' }} />
             </DataTable>
           </TabPanel>
-          <TabPanel header="Riwayat Perubahan.">
+          <TabPanel header="Riwayat Perubahan">
             <DataTable
               value={history}
               sortMode="multiple"
