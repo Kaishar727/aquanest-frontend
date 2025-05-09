@@ -1,175 +1,153 @@
-# Mantis Free React Material UI Dashboard Template [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Get%20Berry%20Angular%20-%20The%20Most%20Beautiful%20Bootstrap%20Designed%20Admin%20Dashboard%20Template%20&url=https://berrydashboard.io/angular/default&via=codedthemes&hashtags=angular,webdev,developers,typescript)
+# AquaNest
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Price](https://img.shields.io/badge/price-FREE-0098f7.svg)](https://github.com/codedthemes/mantis-free-react-admin-template/blob/master/LICENSE)
-[![GitHub package version](https://img.shields.io/github/package-json/v/codedthemes/mantis-free-react-admin-template)](https://github.com/codedthemes/mantis-free-react-admin-template/)
-[![Download ZIP](https://img.shields.io/badge/Download-ZIP-blue?style=flat-square&logo=github)](https://codedthemes.com/item/mantis-free-mui-admin-template/)
-[![Join Discord](https://img.shields.io/badge/Join-Discord-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.com/invite/p2E2WhCb6s)
+**AquaNest** adalah sistem monitoring dan manajemen kualitas air akuakultur berbasis IoT yang dirancang untuk membantu peternak ikan/udang dalam memantau kondisi kolam secara real-time.
 
+---
 
-Mantis is a free and open source React dashboard template made using the Material UI React component library with aim of flexibility and better customizability.
+## 🚀 Fitur Utama
 
-### Name Derived From Nature
+### 🔎 Monitoring Real-Time
+- Parameter kualitas air: pH, suhu, salinitas, amonia, dan lainnya
+- Visualisasi data dalam bentuk grafik dan tabel
+- Pembacaan sensor otomatis setiap 5 menit
 
-Mantis Logo is inspired from the insect name - 'Mantises' as they have triangular heads with flexible Necks. Also, the name is derived from two popular UI frameworks, Material UI and Ant Design (M-Ant-is).
+### 🚨 Sistem Peringatan
+- Notifikasi saat parameter melebihi batas optimal
+- Klasifikasi tingkat urgensi: *Warning* dan *Danger*
 
-Mantis has Ant Design principal on top of the Material UI React component library.
+### 🧠 Manajemen Kolam
+- Dukungan multi-kolam
+- Riwayat historis data
+- Analisis tren kualitas air
 
+### 💻 Antarmuka Pengguna
+- Dashboard interaktif & responsif (desktop & mobile)
+- Grafik informatif berbasis Chart.js
+- UI modern dengan PrimeReact & Material UI
 
-✨ Support us! If you like this theme, click the ⭐ (Top right) and let it shine
+---
 
-![mantis-free-react-dashboard-template.jpg](https://mantisdashboard.io/adv-banner-images/og-social-v1.1.0.png)
+## 🛠️ Teknologi yang Digunakan
 
-## Table of contents
+### Frontend
+- React.js
+- PrimeReact (UI Library)
+- Material-UI (MUI)
+- Chart.js (visualisasi data)
+- Axios (komunikasi API)
 
-- [Getting Started](#getting-started)
-- [Download](#download)
-- [Why Mantis?](#why-mantis)
-- [What's included in Premium Version?](#whats-included-in-premium-version)
-- [Documentation](#documentation)
-- [Browser support](#browser-support)
-- [Technology Stack](#technology-stack)
-- [Other Technologies](#other-technologies)
-- 💰[Save more with Big Bundle](#save-more-with-big-bundle)💰
-- [More React Dashboard Templates](#more-react-dashboard-templates)
-- [Issues?](#issues)
-- [License](#license)
-- [Contributor](#contributor)   
-- [Useful Resources](#useful-resources)
-- [Community](#community)
-- [Follow us](#follow-us)
+### Backend
+- PHP (REST API)
+- MySQL (Database)
 
-## Getting Started
+### IoT
+- Sensor kualitas air (pH, suhu, salinitas, amonia)
+- Mikrokontroler: ESP32 / Arduino
+- Komunikasi via MQTT / HTTP
 
-1. Clone from Github
+---
 
-```
-git clone https://github.com/codedthemes/mantis-free-react-admin-template.git
-```
+## ⚙️ Instalasi & Konfigurasi
 
-2. Install packages
+### Prasyarat
+- Node.js (v14+)
+- Yarn
+- XAMPP / WAMP (untuk menjalankan backend PHP)
 
-```
-yarn
-```
+### Langkah Instalasi
 
-3. Run project
+1. **Clone repositori**
+   ```bash
+   git clone https://github.com/aquanest/aquanest-web.git
+Masuk ke direktori proyek
 
-```
-yarn run start
-```
+bash
+Copy
+Edit
+cd aquanest-web
+Install dependencies
 
-## Download
+bash
+Copy
+Edit
+yarn install
+Konfigurasi environment
 
-- Mantis Free 
-    - [Live Preview](https://mantisdashboard.io/free/) 
-    - [Download](https://codedthemes.com/item/mantis-free-mui-admin-template/)
-- Mantis Pro 
-    - [Live Preview](https://mantisdashboard.io/) 
-    - [Download](https://codedthemes.com/item/mantis-mui-react-dashboard-template/)
-      
-## Why Mantis? 
+Buat file .env di root folder proyek (sejajar dengan README.md)
 
-Mantis offers everything needed to build an advanced dashboard application. In the initial release, we included following high-end features,
+Isi sesuai konfigurasi berikut:
 
-- Support React18.
-- Professional user interface.
-- Material UI React components.
-- Fully responsive, all modern browser supported.
-- Easy to use code structure
-- Flexible & high-Performance code
-- Simple documentation
+env
+Copy
+Edit
+VITE_APP_VERSION = v1.4.1
+GENERATE_SOURCEMAP = false
 
-## What's included in Premium Version?
-The [Pro version](https://mantisdashboard.io/) of Mantis react template includes features such as TypeScript, apps, authentication methods (i.e. JWT, Auth0, Firebase), advance components, form plugins, layouts, widgets, and more.
+VITE_APP_BASE_NAME = /aquanest
 
-| [Mantis Free](https://mantisdashboard.io/free/) | [Mantis](https://mantisdashboard.io/) |
-| ----------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **7** Demo pages                                      | **85+** demo pages                                                                                                                                             |
-| -                                                     | ✓ Multi-language                                                                                                                                               |
-| -                                                     | ✓ Dark/Light Mode 🌓                                                                                                                                           |
-| -                                                     | ✓ TypeScript version                                                                                                                                           |
-| -                                                     | ✓ Design files (Figma)                                                                                                                                         |
-| -                                                     | ✓ Multiple color options                                                                               |
-| -                                                     | ✓ RTL                                                                                                                                                          |
-| -                                                     | ✓ JWT authentications                                                                                                                                          |
-| -                                                     | ✓ [More components](https://mantisdashboard.io/components-overview/autocomplete)                                                                                     |
-| ✓ MIT License                                         | ✓ [Pro License](https://mui.com/store/license/)
+VITE_BASE_URL = http://contohbackend/backend
 
-## Documentation
+Jalankan aplikasi
 
-[Mantis documentation](https://codedthemes.gitbook.io/mantis) helps you out in all aspects from Installation to deployment.
+bash
+Copy
+Edit
+yarn dev
+📁 Struktur Direktori
+bash
+Copy
+Edit
+aquanest-web/
+├── .env                         # File konfigurasi environment
+├── public/                      # Aset statis (favicon, index.html, dll)
+├── src/
+│   ├── api/                     # Fungsi request API
+│   ├── assets/                  # Gambar, ikon, dan asset statis lainnya
+│   ├── components/              # Komponen reusable (card, table, dll)
+│   ├── contexts/                # Context API untuk global state
+│   ├── data/                    # Data dummy atau statis
+│   ├── hooks/                   # Custom React Hooks
+│   ├── layout/                  # Layout aplikasi
+│   ├── menu-items/              # Navigasi menu sidebar
+│   ├── pages/                   # Halaman utama aplikasi
+│   ├── routes/                  # Routing konfigurasi
+│   ├── sections/                # Bagian halaman spesifik
+│   ├── themes/                  # Konfigurasi tema dan styling
+│   └── utils/                   # Fungsi utilitas umum
+├── package.json                 # Konfigurasi dependencies dan scripts
+└── README.md                    # Dokumentasi proyek
+🔧 Konfigurasi Backend
+Jalankan server PHP menggunakan XAMPP atau WAMP
 
-## Browser support
-<img src="https://org-public-assets.s3.us-west-2.amazonaws.com/logos/chrome.png" width="45" height="45" > <img src="https://org-public-assets.s3.us-west-2.amazonaws.com/logos/edge.png" width="45" height="45" > <img src="https://org-public-assets.s3.us-west-2.amazonaws.com/logos/safari.png" width="45" height="45" > <img src="https://org-public-assets.s3.us-west-2.amazonaws.com/logos/firefox.png" width="45" height="45" > <img src="https://org-public-assets.s3.us-west-2.amazonaws.com/logos/opera.png" width="45" height="45" >
+Import file aquanest.sql ke MySQL
 
-## Technology Stack
+Edit config.php dan sesuaikan:
 
-- Material UI V6
-- Built with React Hooks API.
-- React context API for state management.
-- SWR.
-- React Router for navigation routing.
-- Support for Vite.
-- Code splitting.
-- CSS-in-JS.
+Host
 
-## Other Technologies 
-| Technology | Free | Pro |
-|-----------|------|------|
-| <p align="center"><img src="https://org-public-assets.s3.us-west-2.amazonaws.com/logos/Angular.png" width="25" height="25"></p> | [**Free**](https://codedthemes.com/item/mantis-angular-free-admin-template/) | [**Pro**](https://codedthemes.com/item/mantis-angular-admin-template/) |
-| <p align="center"><img src="https://org-public-assets.s3.us-west-2.amazonaws.com/logos/Bootstrap.png" width="30" height="30"></p> | [**Free**](https://codedthemes.com/item/mantis-bootstrap-free-admin-template/) | [**Pro**](https://codedthemes.com/item/mantis-bootstrap-admin-dashboard/) |
-| <p align="center"><img src="https://org-public-assets.s3.us-west-2.amazonaws.com/logos/Vue.png" width="25" height="25"></p> | [**Free**](https://codedthemes.com/item/mantis-free-vuetify-vuejs-admin-template/) | [**Pro**](https://codedthemes.com/item/mantis-vue-admin-template/) |
+Username
 
-## Save more with Big Bundle
+Password
 
-[![bundle-image](https://org-public-assets.s3.us-west-2.amazonaws.com/Banners/Bundle+banner.png)](https://links.codedthemes.com/jhFBJ)
+Nama Database
 
-## More React Dashboard Templates
+📊 Penggunaan Aplikasi
+Dashboard Utama
+Ringkasan kondisi semua kolam
 
-| Dashboard | FREE | PRO | 
-| ----- | ---- | ---- |
-| <img src="https://org-public-assets.s3.us-west-2.amazonaws.com/logos/Berry%20with%20name.png"  height="30" style="display:inline-block; vertical-align:middle;"> | [**Free**](https://codedthemes.com/item/berry-mui-free-react-admin-template/) | [**Pro**](https://codedthemes.com/item/berry-material-react-admin-template/)</span>|
-| <img src="https://org-public-assets.s3.us-west-2.amazonaws.com/logos/Datta%20with%20name.png" height="30" style="display:inline-block; vertical-align:middle;">  | [**Free**](https://codedthemes.com/item/datta-able-react-free-admin-template/) | [**Pro**](https://codedthemes.com/item/datta-able-react-admin-template/)</span>|
-| <img src="https://org-public-assets.s3.us-west-2.amazonaws.com/logos/Gradient%20with%20name.png" height="30" style="display:inline-block; vertical-align:middle;"> | [**Free**](https://codedthemes.com/item/gradient-able-reactjs-free-admin-template/) | [**Pro**](https://codedthemes.com/item/gradient-able-reactjs-admin-dashboard/)</span>|
+Grafik parameter (pH, suhu, dll)
 
-## Issues
+Notifikasi peringatan
 
-Please generate a [Github issue](https://github.com/codedthemes/mantis-free-react-admin-template/issues) if you found a bug in any version. We are try our best to resolve the issue.
+Monitoring Kolam
+Pilih kolam yang ingin dimonitor
 
-## License 
-- Licensed under [MIT](https://github.com/codedthemes/mantis-free-react-admin-template/blob/master/LICENSE)
-- Copyright © [CodedThemes](https://codedthemes.com/)
+Lihat data real-time dan historis
 
-## Contributor
+Export data untuk analisis
 
-**CodedThemes Team**
-- https://x.com/codedthemes
-- https://github.com/codedthemes
+Pengaturan
+Atur parameter optimal per kolam
 
-**Rakesh Nakrani** 
-- https://x.com/rakesh_nakrani
+Manajemen pengguna dan notifikasi
 
-**Brijesh Dobariya**
-- https://x.com/dobaria_brijesh
-
-## Useful Resources
-- [More Admin Templates From CodedThemes](https://codedthemes.com/item/category/admin-templates/)
-- [Freebies From CodedThemes](https://codedthemes.com/item/category/free-templates/)
-- [Big Bundles](https://codedthemes.com/item/big-bundle/)
-- [Figma UI Kits](https://codedthemes.com/item/category/templates/figma/)
-- [Affiliate Program](https://codedthemes.com/affiliate/)
-- [Blogs](https://blog.codedthemes.com/)
-
-## Community
-- 👥Follow [@codedthemes](https://x.com/codedthemes)
-- 🔗Join [Discord](https://discord.com/invite/p2E2WhCb6s)
-- 🔔Subscribe to [Codedtheme Blogs](https://blog.codedthemes.com/)
-
-## Follow Us
-- [Twitter](https://twitter.com/codedthemes) 🐦
-- [Dribbble](https://dribbble.com/codedthemes) 🏀
-- [Github](https://github.com/codedthemes) 🐙
-- [LinkedIn](https://www.linkedin.com/company/codedthemes/) 💼
-- [Instagram](https://www.instagram.com/codedthemes/) 📷
-- [Facebook](https://www.facebook.com/codedthemes) 🟦
