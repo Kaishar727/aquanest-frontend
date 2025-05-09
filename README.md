@@ -42,8 +42,8 @@
 
 ### IoT
 - Sensor kualitas air (pH, suhu, salinitas, amonia)
-- Mikrokontroler: ESP32 / Arduino
-- Komunikasi via MQTT / HTTP
+- Mikrokontroler: ESP8266
+- Komunikasi via HTTP REST API
 
 ---
 
@@ -52,7 +52,7 @@
 ### Prasyarat
 - Node.js (v14+)
 - Yarn
-- XAMPP / WAMP (untuk menjalankan backend PHP)
+- XAMPP / WAMP / Laragon v6 (untuk menjalankan backend PHP)
 
 ### Langkah Instalasi
 
@@ -69,7 +69,7 @@ Install dependencies
 yarn install
 
 ```
-### Konfigurasi environment
+### Konfigurasi environment Frontend
 
 Buat file .env di root folder proyek (sejajar dengan README.md)
 
@@ -109,25 +109,49 @@ aquanest-web/
 ```
 
 ### 🔧 Konfigurasi Backend
-Jalankan server PHP menggunakan XAMPP atau WAMP
+1. **Clone repositori**
+   ```bash
+   git clone https://github.com/jamesdry/backendlelee.git
 
-Import file aquanest.sql ke MySQL
+### Konfigurasi environment Backend
+Buat file .env di root folder proyek (sejajar dengan README.md)
 
-Edit  dan sesuaikan:
+Isi ini di dalam file .env:
+```bash
+DB_HOST=
+DB_USER=
+DB_PASS=
+DB_NAME=
 
-Host
+```
 
-Username
+2. **Menjalankan Backend**
+Instalasi PHP Terbaru (Opsional, jika belum tersedia)
 
-Password
+Jika menggunakan Laragon v6, PHP versi terbaru bisa diinstal dengan mudah:
 
-Nama Database
+- Buka Laragon > Menu Tools > Quick Add > PHP
+- Pilih versi PHP terbaru (misalnya PHP 8.2.x)
+
+Setelah selesai, atur versi aktif:
+
+Laragon > Menu > PHP > Pilih versi PHP terbaru yang baru diinstall lalu tekan tombol "Start All", pastikan Apache dan MySQL nyala.
+
+Jika tidak menggunakan Laragon v6:
+
+- Unduh PHP dari https://windows.php.net/download
+
+- Ekstrak dan tambahkan ke PATH di environment variables
+
+- Pastikan PHP sudah tersedia dengan menjalankan command php -v di terminal Command Prompt Windows / Terminal di MacOS
+
+Import file aquanest.sql yang ada di folder databases/ ke dalam MySQL melalui phpMyAdmin
 
 ## 📊 Penggunaan Aplikasi
 
 #### Dashboard Utama
 
-- Grafik parameter (pH, suhu, dll)
+- Grafik parameter (pH, suhu, salinitas dan amonia)
 
 - Notifikasi peringatan
 
