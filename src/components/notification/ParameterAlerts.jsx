@@ -91,7 +91,7 @@ const ParameterAlerts = ({ pondId, alerts, setAlerts }) => {
   );
 
   return (
-    <Card className="h-full">
+    <Card className="h-full" style={{minHeight:'100vh'}}>
       <DataTable
         value={alerts}
         header={header}

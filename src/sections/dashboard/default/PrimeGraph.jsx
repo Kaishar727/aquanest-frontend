@@ -207,12 +207,11 @@ const ChartCard = ({
 
   return (
     <Card>
-      <div style={{ padding: '1rem' }}>
+      <div>
         <Dropdown 
           value={range} 
           options={timeOptions} 
           onChange={(e) => setRange(e.value)} 
-          style={{ marginBottom: '1rem' }}
         />
         
         <div style={{ 

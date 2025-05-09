@@ -318,8 +318,8 @@ export default function DashboardDefault() {
       <Toast ref={toast} />
       <Grid container item xs={12} spacing={5}>
         <Grid item xs={12} sm={9} md={7} sx={{ height: '100vh' }}>
-          <MainCard sx={{ height: '100%', marginBottom: '4' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+          <MainCard sx={{ height: '100%'}}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <Typography variant="h5">Rata-rata Semua Kolam</Typography>
               <Button
                 icon="pi pi-cog"
