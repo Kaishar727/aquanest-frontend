@@ -87,6 +87,7 @@ VITE_APP_BASE_NAME = /aquanest
 
 VITE_BASE_URL = http://contohbackend/backend
 
+
 Jalankan aplikasi
 
 bash
