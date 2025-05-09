@@ -9,16 +9,16 @@
 ### 🔎 Monitoring Real-Time
 - Parameter kualitas air: pH, suhu, salinitas, amonia, dan lainnya
 - Visualisasi data dalam bentuk grafik dan tabel
-- Pembacaan sensor otomatis setiap 5 menit
+- Pembacaan sensor otomatis setiap 1 jam
 
 ### 🚨 Sistem Peringatan
 - Notifikasi saat parameter melebihi batas optimal
-- Klasifikasi tingkat urgensi: *Warning* dan *Danger*
+
 
 ### 🧠 Manajemen Kolam
 - Dukungan multi-kolam
 - Riwayat historis data
-- Analisis tren kualitas air
+
 
 ### 💻 Antarmuka Pengguna
 - Dashboard interaktif & responsif (desktop & mobile)
@@ -58,46 +58,35 @@
 
 1. **Clone repositori**
    ```bash
-   git clone https://github.com/aquanest/aquanest-web.git
+   git clone https://github.com/Kaishar727/aquanest-frontend.git
 Masuk ke direktori proyek
 
-bash
-Copy
-Edit
-cd aquanest-web
+```bash
+cd aquanest-frontend
+```
 Install dependencies
-
-bash
-Copy
-Edit
+```bash
 yarn install
-Konfigurasi environment
+
+```
+### Konfigurasi environment
 
 Buat file .env di root folder proyek (sejajar dengan README.md)
 
 Isi sesuai konfigurasi berikut:
-
-env
-Copy
-Edit
+```bash
 VITE_APP_VERSION = v1.4.1
+
 GENERATE_SOURCEMAP = false
 
 VITE_APP_BASE_NAME = /aquanest
 
 VITE_BASE_URL = http://contohbackend/backend
 
+```
 
-Jalankan aplikasi
-
-bash
-Copy
-Edit
-yarn dev
 📁 Struktur Direktori
-bash
-Copy
-Edit
+```bash
 aquanest-web/
 ├── .env                         # File konfigurasi environment
 ├── public/                      # Aset statis (favicon, index.html, dll)
@@ -117,12 +106,14 @@ aquanest-web/
 │   └── utils/                   # Fungsi utilitas umum
 ├── package.json                 # Konfigurasi dependencies dan scripts
 └── README.md                    # Dokumentasi proyek
-🔧 Konfigurasi Backend
+```
+
+### 🔧 Konfigurasi Backend
 Jalankan server PHP menggunakan XAMPP atau WAMP
 
 Import file aquanest.sql ke MySQL
 
-Edit config.php dan sesuaikan:
+Edit  dan sesuaikan:
 
 Host
 
@@ -132,23 +123,21 @@ Password
 
 Nama Database
 
-📊 Penggunaan Aplikasi
-Dashboard Utama
-Ringkasan kondisi semua kolam
+## 📊 Penggunaan Aplikasi
 
-Grafik parameter (pH, suhu, dll)
+#### Dashboard Utama
 
-Notifikasi peringatan
+- Grafik parameter (pH, suhu, dll)
 
-Monitoring Kolam
-Pilih kolam yang ingin dimonitor
+- Notifikasi peringatan
 
-Lihat data real-time dan historis
+- Monitoring Kolam
 
-Export data untuk analisis
+- Lihat data real-time dan historis
 
-Pengaturan
-Atur parameter optimal per kolam
+#### Pengaturan
 
-Manajemen pengguna dan notifikasi
+- Atur parameter optimal per kolam
+
+- Manajemen pengguna dan notifikasi
 
